@@ -83,7 +83,7 @@ Once all robots reach their start poses, the system returns to formation mode.
 
 Topics Used
 Topic	Type	Description
-/swarm_mode	std_msgs/String	Mode switching (formation, follow, stop, reset)
+''' /swarm_mode	std_msgs/String	Mode switching (formation, follow, stop, reset) '''
 /robotX/goal	geometry_msgs/Pose2D	Goal for PID controller
 /robotX/pid_enable	std_msgs/Bool	Enable/disable PID
 /robotX/cmd_vel	geometry_msgs/Twist	Velocity command
@@ -123,7 +123,7 @@ Ensures safe transitions and deterministic behavior.
 Reactive safety instead of global navigation
 Appropriate for formation experiments in controlled environments.
 
-Limitations
+# Limitations
 
 No global path planning or map-based navigation.
 
@@ -131,7 +131,7 @@ Obstacle handling is reactive (stop-only).
 
 Designed for controlled simulation environments.
 
-Future Work
+# Future Work
 
 Sector-based obstacle avoidance instead of full stop.
 
@@ -139,6 +139,6 @@ Distributed formation control without a central manager.
 
 Integration with global mapping and localization (handled in a separate project).
 
-License
+# License
 
 MIT License
