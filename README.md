@@ -46,6 +46,12 @@ If any robot detects an obstacle within 1 m, the entire swarm halts.
 
 Gazebo Simulation
 
+2. Start the common multi-robot PID controller
+ros2 run swarm_command pid_multirobot
+
+3. Start the swarm manager
+ros2 run swarm_command swarm_manager
+
 Differential-drive robots with individual namespaces.
 
 Fully reproducible simulation environment.
