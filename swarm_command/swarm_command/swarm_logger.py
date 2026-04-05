@@ -8,17 +8,14 @@ import time
 class SwarmLogger(Node):
     def __init__(self):
         super().__init__('swarm_logger')
-
-        # Storage
+        
         self.r1 = [0.0, 0.0]
         self.r2 = [0.0, 0.0]
         self.r3 = [0.0, 0.0]
 
-        # CSV file
         self.file = open('swarm_data.csv', 'w', newline='')
         self.writer = csv.writer(self.file)
 
-        # Header
         self.writer.writerow([
             'time',
             'r1_x','r1_y',
@@ -26,15 +23,12 @@ class SwarmLogger(Node):
             'r3_x','r3_y'
         ])
 
-        # Start time
         self.start_time = time.time()
 
-        # Subscribers
         self.create_subscription(Odometry, '/robot1/odom', self.cb_r1, 10)
         self.create_subscription(Odometry, '/robot2/odom', self.cb_r2, 10)
         self.create_subscription(Odometry, '/robot3/odom', self.cb_r3, 10)
 
-        # Timer (log at fixed rate)
         self.timer = self.create_timer(0.1, self.log_data)  # 10 Hz
 
         self.get_logger().info("Swarm logger started...")
