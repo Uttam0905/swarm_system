@@ -10,9 +10,6 @@ A ROS 2–based multi-robot swarm coordination system simulated in Gazebo. Three
 
 ![Gazebo Simulation](media/gazebo_screenshot.png)
 
-https://github.com/user-attachments/assets/ADD_YOUR_VIDEO_ID_HERE
-
-> ⚠️ *To embed the video: upload `Screencast_from_04-05-2026_05_43_31_PM.webm` to your repo and replace the link above, or upload to YouTube and embed using `[![Watch Demo](thumbnail.png)](https://youtu.be/your_link)`.*
 
 ---
 
