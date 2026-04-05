@@ -147,7 +147,7 @@ LiDAR-based stop behavior was chosen for its simplicity and reliability in const
 - Integration with SLAM and ROS 2 Nav2 navigation stack
 
 ---
----
+
 
 ## 📄 License
 
