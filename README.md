@@ -78,12 +78,12 @@ The system supports explicit mode switching, LiDAR-based reactive safety, and sa
 ## How to Run
 1. Launch Gazebo and spawn robots
 ~~~
-ros2 launch swarm_robot swarm_gazebo.launch.py
+ros2 launch swarm_robot swarm_robot.launch.py
 ~~~
 
 2. Start the swarm manager
 ~~~
-ros2 launch swarm_command swarm_manager.launch.py
+ros2 launch swarm_command swarm_system.launch.py
 ~~~
 ## Switching Modes
 ### Formation mode
