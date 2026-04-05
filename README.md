@@ -72,22 +72,13 @@ The system was evaluated on formation accuracy, stability, and convergence from 
 - Gazebo Classic
 - `colcon` build tool
 
-### 1. Clone and build
-
-```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
-cd YOUR_REPO
-colcon build
-source install/setup.bash
-```
-
-### 2. Launch Gazebo and spawn robots
+### 1. Launch Gazebo and spawn robots
 
 ```bash
 ros2 launch swarm_robot swarm_robot.launch.py
 ```
 
-### 3. Start the swarm manager
+### 2. Start the swarm manager
 
 ```bash
 ros2 launch swarm_command swarm_system.launch.py
