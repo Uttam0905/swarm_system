@@ -147,19 +147,6 @@ LiDAR-based stop behavior was chosen for its simplicity and reliability in const
 - Integration with SLAM and ROS 2 Nav2 navigation stack
 
 ---
-
-## 📁 Media Setup
-
-Place your media files in a `media/` folder at the root of your repo:
-
-```
-media/
-├── gazebo_screenshot.png
-├── trajectory.png
-├── distance_error.png
-└── oscillation.png
-```
-
 ---
 
 ## 📄 License
