@@ -8,7 +8,7 @@ A ROS 2–based multi-robot swarm coordination system simulated in Gazebo. Three
 
 > Three robots spawning at random positions and converging into a straight-line formation.
 
-![Gazebo Simulation](media/gazebo_screenshot.png)
+![Gazebo Simulation](media/Screenshot from 2026-04-05 14-59-35.png)
 
 
 ---
