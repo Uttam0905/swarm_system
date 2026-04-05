@@ -1,135 +1,170 @@
-# swarm_system
-## Overview
+# 🤖 Swarm Robot System — ROS 2 Multi-Robot Coordination
 
-This project implements a ROS 2–based multi-robot swarm coordination system in Gazebo.
-Three differential-drive robots are spawned at arbitrary locations and coordinated using formation control and leader–follower behavior, controlled by a common multi-robot PID controller.
+A ROS 2–based multi-robot swarm coordination system simulated in Gazebo. Three differential-drive robots are spawned at arbitrary locations and coordinated using formation control and leader–follower behavior, driven by a shared multi-robot PID controller.
 
-The system supports explicit mode switching, LiDAR-based reactive safety, and safe transitions between autonomous and manual control, following real-world robotics system design practices.
+---
 
-## Key Features
+## 📸 Demo
 
-### Formation Control
+> Three robots spawning at random positions and converging into a straight-line formation.
 
-  * Robots form a straight-line formation from random initial positions.
+![Gazebo Simulation](media/gazebo_screenshot.png)
 
-  * Formation goals are computed using the swarm centroid.
+https://github.com/user-attachments/assets/ADD_YOUR_VIDEO_ID_HERE
 
-### Leader–Follower Control
+> ⚠️ *To embed the video: upload `Screencast_from_04-05-2026_05_43_31_PM.webm` to your repo and replace the link above, or upload to YouTube and embed using `[![Watch Demo](thumbnail.png)](https://youtu.be/your_link)`.*
 
- * One robot acts as the leader.
+---
 
- * Followers mirror the leader’s velocity commands.
+## ✨ Features
 
-### Common Multi-Robot PID Controller
+- **Formation Control** — Robots compute the swarm centroid and arrange into a straight-line formation from arbitrary initial positions.
+- **Leader–Follower Control** — One robot acts as leader; followers mirror its velocity commands.
+- **Shared PID Controller** — A single PID implementation handles all robots with integral anti-windup, derivative smoothing, and yaw filtering. Enabled/disabled per robot via `/robotX/pid_enable`.
+- **Explicit Mode Switching** — Clean, deterministic transitions between `formation`, `follow`, `stop`, and `reset` modes.
+- **LiDAR-Based Reactive Safety** — Each robot has an independent LiDAR. If any robot detects an obstacle within 1 m, the entire swarm halts instantly.
 
- * Single PID implementation shared across all robots.
+---
 
- * Integral anti-windup, derivative smoothing, and yaw filtering.
+## 🔄 Modes of Operation
 
- * Runtime enable/disable using /robotX/pid_enable.
+| Mode | Description |
+|------|-------------|
+| `formation` | Goal-based formation control using the shared PID controller |
+| `follow` | Velocity-based leader–follower; PID disabled |
+| `stop` | Emergency halt triggered by LiDAR obstacle detection (< 1 m) |
+| `reset` | Robots autonomously return to spawn positions, then resume formation |
 
-### Mode Switching
+---
 
- * formation – goal-based formation control using PID.
+## 📊 Evaluation Results
 
- * follow – velocity-based leader–follower control.
+The system was evaluated on formation accuracy, stability, and convergence from arbitrary initial positions.
 
- * stop – emergency stop triggered by LiDAR.
+| Metric | Value |
+|--------|-------|
+| Formation offset | 5.04 m |
+| Mean steady-state distance error | 0.062 m |
+| Oscillation amplitude | 0.013 m |
+| Convergence time | 17.6 s |
 
- * reset – robots return autonomously to initial spawn positions.
+**Key observations:**
+- Stable and accurate formation from arbitrary initial conditions
+- Minimal oscillations (~1 cm), well within acceptable bounds
+- Well-damped response — conservative PID tuning prioritizes stability over speed
 
-### LiDAR-Based Reactive Safety
+### Robot Trajectories
 
- * Each robot has an independent LiDAR sensor.
+![Robot Trajectories](media/trajectory.png)
 
- * If any robot detects an obstacle within 1 m, the entire swarm halts.
+### Inter-Robot Distance Error
 
-## Modes of Operation
-### Formation Mode
+![Inter-Robot Distance Error](media/distance_error.png)
 
- * Robots compute the swarm centroid.
+### Lateral Oscillation
 
- * Each robot receives a goal with a fixed lateral offset.
+![Lateral Oscillation](media/oscillation.png)
 
- * Motion is controlled by the shared PID controller.
+---
 
-### Follow Mode
+## 🚀 Getting Started
 
- * PID controllers are disabled.
+### Prerequisites
 
- * Followers directly receive the leader’s velocity commands.
+- ROS 2 (Humble or later)
+- Gazebo Classic
+- `colcon` build tool
 
- * Used for teleoperation-driven swarm motion.
+### 1. Clone and build
 
-### Stop Mode (Safety)
+```bash
+git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
+cd YOUR_REPO
+colcon build
+source install/setup.bash
+```
 
- * Triggered automatically if any LiDAR detects an obstacle < 1 m.
+### 2. Launch Gazebo and spawn robots
 
- * All PID controllers disabled.
-
- * All robots commanded to zero velocity.
-
-### Reset Mode
-
- * Robots autonomously return to their initial spawn positions using PID goals.
-
- * When all robots reach their start poses, the system returns to formation mode.
-
-## How to Run
-1. Launch Gazebo and spawn robots
-~~~
+```bash
 ros2 launch swarm_robot swarm_robot.launch.py
-~~~
+```
 
-2. Start the swarm manager
-~~~
+### 3. Start the swarm manager
+
+```bash
 ros2 launch swarm_command swarm_system.launch.py
-~~~
-## Switching Modes
-### Formation mode
-~~~
+```
+
+---
+
+## 🕹️ Switching Modes
+
+**Formation mode**
+```bash
 ros2 topic pub -1 /swarm_mode std_msgs/String "{data: formation}"
-~~~
-### Follow mode
-~~~
+```
+
+**Follow mode**
+```bash
 ros2 topic pub -1 /swarm_mode std_msgs/String "{data: follow}"
-~~~
-### Emergency stop
-~~~
+```
+
+**Emergency stop**
+```bash
 ros2 topic pub -1 /swarm_mode std_msgs/String "{data: stop}"
-~~~
-### Reset to initial positions
-~~~
+```
+
+**Reset to initial positions**
+```bash
 ros2 topic pub -1 /swarm_mode std_msgs/String "{data: reset}"
-~~~
+```
 
-## Design Decisions
+---
 
-### Explicit mode switching instead of killing nodes
-Ensures safe, deterministic transitions between behaviors.
+## 🏗️ Design Decisions
 
-### Separation of coordination and control
-Swarm logic is isolated from PID control for modularity.
+**Explicit Mode Switching**
+Ensures safe, deterministic transitions between behaviors without restarting nodes — critical for real-world robotics systems.
 
-### Reactive safety over global planning
-Appropriate for formation experiments in controlled environments.
+**Separation of Coordination and Control**
+Swarm logic is fully decoupled from the PID controller, making the system modular and easy to extend.
 
-## Limitations
+**Reactive Safety over Global Planning**
+LiDAR-based stop behavior was chosen for its simplicity and reliability in constrained formation experiments.
 
-No global path planning or map-based navigation.
+---
 
-Obstacle handling is reactive (stop-only).
+## ⚠️ Limitations
 
-Designed for simulation environments.
+- No global path planning or map-based navigation
+- Obstacle handling is reactive (stop-only, no avoidance)
+- Designed and tested in simulation environments only
 
-## Future Work
+---
 
-Sector-based obstacle avoidance instead of full stop.
+## 🔭 Future Work
 
-Distributed swarm coordination without a central manager.
+- Sector-based obstacle avoidance instead of full swarm stop
+- Distributed coordination without a central swarm manager
+- Integration with SLAM and ROS 2 Nav2 navigation stack
 
-Integration with global mapping and localization pipelines.
+---
 
-## License
+## 📁 Media Setup
 
-MIT License
+Place your media files in a `media/` folder at the root of your repo:
+
+```
+media/
+├── gazebo_screenshot.png
+├── trajectory.png
+├── distance_error.png
+└── oscillation.png
+```
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
