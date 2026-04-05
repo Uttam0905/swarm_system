@@ -107,7 +107,7 @@ ros2 topic pub -1 /swarm_mode std_msgs/String "{data: formation}"
 ros2 topic pub -1 /swarm_mode std_msgs/String "{data: follow}"
 ```
 
-Drive the robot manually to build the map:
+Drive the robot 1(leader) manually:
 ```bash
 ros2 run teleop_twist_keyboard teleop_twist_keyboard \
   --ros-args -r cmd_vel:=/robot1/cmd_vel_teleop
