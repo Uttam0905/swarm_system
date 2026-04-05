@@ -8,7 +8,7 @@ A ROS 2–based multi-robot swarm coordination system simulated in Gazebo. Three
 
 > Three robots spawning at random positions and converging into a straight-line formation.
 
-![Gazebo Simulation](media/Screenshot from 2026-04-05 14-59-35.png)
+![Gazebo Simulation](media/gazebo_screenshot1.png)
 
 
 ---
@@ -92,7 +92,7 @@ ros2 launch swarm_robot swarm_robot.launch.py
 ```bash
 ros2 launch swarm_command swarm_system.launch.py
 ```
-
+![Gazebo Simulation](media/gazebo_screenshot2.png)
 ---
 
 ## 🕹️ Switching Modes
