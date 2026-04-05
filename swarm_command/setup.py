@@ -25,6 +25,7 @@ setup(
             'forward_cmd_vel_multi = swarm_command.forward_cmd_vel_multi:main',
             'swarm_manager = swarm_command.swarm_manager:main',
             'pid_multirobot = swarm_command.pid_multirobot:main',
+            'swarm_logger = swarm_command.swarm_logger:main',
         ],
     },
 )
